@@ -392,7 +392,7 @@ form{display:flex;flex-direction:column;gap:16px}
 .f{display:flex;flex-direction:column;gap:6px;min-width:0}
 .f.full{grid-column:1/-1}
 .f label,.f .lbl{font-size:13px;font-weight:600;color:var(--muted)}
-.f input,.f select,.f textarea{width:100%;min-width:0;height:46px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface);font-size:16px}
+.f input,.f select,.f textarea{width:100%;min-width:0;height:42px;padding:0 12px;border:1px solid var(--line);border-radius:9px;background:var(--surface);font-size:16px}
 .f input:read-only{background:var(--surface-2);color:var(--muted)}
 .f input:focus,.f select:focus{border-color:var(--rep);outline:none;box-shadow:0 0 0 3px var(--rep-soft)}
 .seg-wrap{display:flex;gap:8px}
@@ -679,6 +679,55 @@ form{display:flex;flex-direction:column;gap:16px}
   .detail-in .pal-table{min-width:520px}
 }
 @media (prefers-reduced-motion:reduce){tr.flash td{animation:none;background:var(--warn-soft)}.iconbtn.spin svg{animation:none}.tile.hit{animation:none}.tile:hover{transform:none}}
+/* Login: medium size, centred, fits one screen on phones and laptops */
+.login{padding:24px 14px}
+.login-wrap{max-width:520px}
+.login-wrap h1{font-size:28px;line-height:1.2;margin:0}
+.login-wrap .lg-sub{font-size:15.5px;margin-top:8px}
+img.lg-mark.lg-emblem{width:96px;max-width:96px;margin-bottom:10px}
+.login-card{margin-top:22px;padding:28px;border-radius:22px;gap:14px}
+.lg-who{padding:14px 16px;gap:14px;border-radius:14px}
+.lg-av{width:50px;height:50px}
+.lg-av svg{width:26px;height:26px}
+.lg-who b{font-size:17px}
+.lg-who span{font-size:14px;margin-top:2px}
+.login-card .f label{font-size:13.5px}
+.login-card .f input{height:50px;font-size:16px;padding:0 13px;border-radius:10px}
+.lg-go{height:52px;font-size:17px;border-radius:12px}
+@media (hover:none){.login-card .f input{font-size:16px}}
+.lg-div{font-size:12.5px}
+.lg-help{font-size:13.5px}
+.lg-foot{margin-top:16px;font-size:13.5px}
+.login-wrap h1{white-space:nowrap}
+@media (max-width:640px){.login-wrap h1{font-size:4.1vw!important}}
+@media (min-width:900px) and (min-height:850px){
+  .login-wrap{max-width:600px}
+  .login-wrap h1{font-size:32px}
+  .login-wrap .lg-sub{font-size:18px;margin-top:10px}
+  img.lg-mark.lg-emblem{width:116px;max-width:116px;margin-bottom:14px}
+  .login-card{margin-top:28px;padding:38px;border-radius:26px;gap:18px}
+  .lg-who{padding:18px 20px;gap:16px;border-radius:16px}
+  .lg-av{width:60px;height:60px}.lg-av svg{width:30px;height:30px}
+  .lg-who b{font-size:19px}.lg-who span{font-size:15px}
+  .login-card .f label{font-size:15px}
+  .login-card .f input{height:54px;font-size:17px;padding:0 16px;border-radius:12px}
+  .lg-go{height:56px;font-size:18px;border-radius:14px}
+  .lg-div{font-size:13.5px}.lg-help{font-size:15px}.lg-foot{font-size:15px;margin-top:20px}
+}
+@media (max-width:480px){
+  .login{padding:16px 12px;justify-content:center}
+  .login-wrap h1{font-size:22px}
+  .login-card{padding:20px}
+}
+@media (max-height:700px){
+  .login{padding:10px 12px}
+  .login-wrap h1{font-size:19px}
+  .login-wrap .lg-sub{font-size:13px}
+  img.lg-mark.lg-emblem{width:52px;max-width:52px;margin-bottom:4px}
+  .login-card{margin-top:10px;padding:14px;gap:8px}
+  .lg-who{display:none}
+  .lg-div,.lg-help{display:none}
+}
 </style>
 </head>
 <body>
@@ -741,7 +790,6 @@ window.addEventListener('unhandledrejection',function(ev){window.__bootErr('Erro
       <p class="lg-help">Ask the warehouse admin to reset it via the Settings menu.</p>
     </form>
     <p class="lg-foot">Access is protected by encrypted passwords; accounts are managed by the warehouse admin</p>
-    <p class="lg-foot" id="lg-ver" style="font-size:12px;opacity:.75;margin-top:8px"></p>
   </div>
 </div>
 
@@ -1028,7 +1076,7 @@ function stored(k){try{return sessionStorage.getItem(k)}catch(e){return null}}
 let busyN=0;
 function busy(d){busyN=Math.max(0,busyN+d)}
 function errMsg(e){return String((e&&e.message)||e||'An error occurred.').replace(/^(Exception|Error):\s*/,'')}
-const API_URL='';
+const API_URL='https://script.google.com/macros/s/AKfycbzt_3_6Ik0qyDdBHJvja5xrxhkikBNMbw61IAJeFlEADdo3eT2YX8TjRASLxP_HndEG/exec';
 function apiUrl(){let u=API_URL;if(!u){try{u=localStorage.getItem('wms-api')||''}catch(e){}}return u}
 function hosted(){return !(window.google&&google.script&&google.script.run)}
 function raw(fn,...args){
@@ -2888,9 +2936,6 @@ function bind(){
     if(eu)openUser({username:eu.dataset.editUser,name:eu.dataset.name,role:eu.dataset.role,active:eu.dataset.active==='1'});
   });
 
-  const verTxt=()=>{const e=$('#lg-ver');if(e)e.textContent='build 2026-10-16m | page '+innerWidth+'x'+innerHeight+' | screen '+screen.width+'x'+screen.height+' | html '+document.documentElement.clientHeight};
-  if(hosted()&&!apiUrl())$('#lg-apiwrap').hidden=false;
-  verTxt();window.addEventListener('resize',verTxt);setTimeout(verTxt,600);
   $('#lg-show').addEventListener('click',()=>{const i=$('#lg-pass'),sh=i.type==='password';i.type=sh?'text':'password';$('#lg-show').textContent=sh?'Hide':'Show'});
   $('#lg-user').addEventListener('input',()=>{
     const v=$('#lg-user').value.trim(),av=$('#lg-av');
@@ -2964,4 +3009,3 @@ boot();
 </script>
 </body>
 </html>
-
